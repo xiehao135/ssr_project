@@ -19,8 +19,6 @@ import { ICatalogProps, Catalog } from "../../components/catalog/index";
 import { IEssayProps, Essay } from "../../components/essay/index";
 // import { Catalog } from "../../components/catalog/index"; // 如果不用传值，后面就要用这个
 
-const SearchType = require("../../components/catalogc/index");
-const Catalogc = require("../../components/catalogc/index")
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 export interface IArticleProps {
   essayData: IEssayProps;
