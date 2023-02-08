@@ -19,8 +19,6 @@ import { ICatalogProps, Catalog } from "../../components/catalog/index";
 import { IEssayProps, Essay } from "../../components/essay/index";
 // import { Catalog } from "../../components/catalog/index"; // 如果不用传值，后面就要用这个
 
-const SearchType = require("../../components/catalogc/index");
-const Catalogc = require("../../components/catalogc/index")
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 export interface IArticleProps {
   essayData: IEssayProps;
@@ -47,7 +45,7 @@ export const Article: NextPage<IArticleProps> = ({
   return (
     <div className={styles.layout}>
       <div className={styles.content}>
-      {/* <Catalogc /> */}
+        {/* <Catalogc /> */}
         <Essay {...essayData} />
         <div className={styles.sideBar}>
           {/* 这个地方放 作者、广告插件 */}
