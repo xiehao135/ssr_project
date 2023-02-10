@@ -7,6 +7,7 @@ import { Pagination } from '@douyinfe/semi-ui';
 import axios from 'axios';
 import { LOCALDOMAIN } from '@/utils';
 import { IArticleIntro } from './api/articleIntro';
+import { IAuthor } from './api/author';
 import App from 'next/app';
 import { IComponentProps } from './_app';
 import Link from 'next/link';
@@ -23,10 +24,20 @@ interface IProps {
     }[];
     total: number;
   };
+  authors: {
+    list: {
+      name: string;
+      avatar: string;
+      description: string;
+      level: string;
+    }[];
+    total: number;
+  };
 }
 
-const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp }) => {
+const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp,authors }) => {
   const [content, setContent] = useState(articles);
+  const [authorInfo, setAuthorInfo] = useState(authors);
   const mainRef = useRef<HTMLDivElement>(null);
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
@@ -47,6 +58,31 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
             [styles.headerWebp]: isSupportWebp,
           })}
         />
+
+        <div className = {styles.userblock}>
+          <div className = {styles.userblock_head}>🎖️作者榜</div>
+          <div className = {styles.userblock_list}>
+            {authorInfo?.list?.map((item, index)=> (
+              <a href='https://www.juejin.cn' className = {styles.userblock_list_item} target="_blank">
+                <div className={styles.userblock_list_item_link}>
+                  <img src={item.avatar} className={styles.userblock_list_item_link_left}></img>
+                  <div className={styles.userblock_list_item_link_right}>
+                    <div className={styles.userblock_list_item_link_right_top}>
+                      <div className={styles.userblock_list_item_link_right_top_name}>{item.name}</div>
+                      <img src={item.level} width={35}></img>
+                    </div>
+                    <div className={styles.userblock_list_item_link_right_bottom}>{item.description}</div>
+                  </div>
+                </div>
+              </a>
+            ))
+           }
+          </div>
+          <a href='https://www.juejin.cn' target="_blank">
+            <div className={styles.userblock_bottom}>完整榜单</div>
+          </a>
+        </div>
+
         <h1 className={styles.title}>{title}</h1>
         <p className={styles.description}>{description}</p>
 
@@ -104,6 +140,16 @@ Home.getInitialProps = async (context): Promise<IProps> => {
     pageNo: 1,
     pageSize: 6,
   });
+  const { data: authorData } = await axios.post(`${LOCALDOMAIN}/api/author`);
+  // axios.post(`${LOCALDOMAIN}/api/articleIntro`, {
+  //   pageNo: 1,
+  //   pageSize: 6,
+  // }).then((res)=>{
+  //   console.log(res.data)
+  // });
+  // axios.post(`${LOCALDOMAIN}/api/author`).then((res)=>{
+  //   console.log(res.data)
+  // });
 
   return {
     title: homeData.title,
@@ -116,7 +162,18 @@ Home.getInitialProps = async (context): Promise<IProps> => {
       })),
       total: articleData.total,
     },
+    authors: {
+      list: authorData.list.map((item: IAuthor) =>({
+        name:item.name,
+        avatar:item.avatar,
+        description:item.description,
+        level:item.level
+      })),
+      total: authorData.total,
+    }
   };
+  
+  
 };
 
 // export const getServerSideProps: GetServerSideProps = async context => {

@@ -67,6 +67,81 @@
       font-size: 1.5rem;
     }
 
+    // 添加的userblock模块的css
+    .userblock{
+      background-color: white;
+      border-radius: 2px;
+      box-shadow: 0 1px 2px 0 rgb(0 0 0/5%);
+      font-size: 14px;
+      line-height: 1.29;
+      color: #333;
+      margin-bottom: 1.3rem;
+      width: 240px;
+      .userblock_head{
+        padding: 12px 15px;
+        border-bottom: 1px solid hsla(0,0%,59.2%,.1);
+      }
+      .userblock_list{
+        display: flex;
+        flex-direction: column;
+
+        .userblock_list_item{
+
+          .userblock_list_item_link{
+            display: flex;
+            flex-direction: row;
+            width: 210px;
+            margin: 12px 15px;
+  
+            .userblock_list_item_link_left{
+              width:45.6px;
+              border-radius: 50%;
+              overflow: hidden;
+            }
+
+            .userblock_list_item_link_right{
+              display: flex;
+              flex-direction: column;
+              margin-left: 6px;
+              justify-content: space-around;
+  
+              .userblock_list_item_link_right_top{
+                display: flex;
+                flex-direction: row;
+  
+                .userblock_list_item_link_right_top_name{
+                  margin-right: 3px;
+                  max-width: 112px;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  word-break: keep-all;
+                }
+              }
+  
+              .userblock_list_item_link_right_bottom{
+                color:#909090;
+                font-size: 12px;
+                max-width: 150px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-break: keep-all;
+              }
+            }
+  
+          }
+        }
+      }
+      .userblock_bottom{
+        padding: 12px 15px;
+        border-top: 1px solid hsla(0,0%,59.2%,.1);
+        color: #007fff;
+        text-align: center;
+      }
+    }
+ // end
+
     .grid {
       display: flex;
       align-items: flex-start;
