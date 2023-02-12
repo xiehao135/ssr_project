@@ -25,7 +25,6 @@ const MyApp = (
     isMobile,
     isSupportWebp,
   } = data;
-
   return (
     <div>
       <Head>

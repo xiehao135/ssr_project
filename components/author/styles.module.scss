@@ -1,0 +1,36 @@
+.authorBox {
+     width: 100%;
+     height: 6rem;
+     margin-left: 1.25rem;
+     margin-bottom: 0.75rem;
+     background-color: white;
+     border-radius: 5%;
+     .authorContent {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          justify-content: left;
+          align-items: center;
+          margin: 1.25rem;
+          .authorImg {
+               width: 3rem;
+               height: 3rem;
+               background-color: aquamarine;
+          }
+          .authorDesc {
+               width: 10rem;
+               margin-left: 1.25rem ;
+               .authorName {
+                    font-size: 0.933rem;
+                    margin-bottom: 0.25rem;
+               };
+               .authorInfo {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-size: 0.167rem;
+                    color: #515767;
+               }
+          }
+     }
+}

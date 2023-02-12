@@ -168,7 +168,6 @@ const compareLevel = (acc: number, last: number) => {
   // 比较函数 > 1为子集 = 0同级 < -1迭代前推
   return acc > last ? 1 : acc == last ? 0 : -1;
 };
-
 // 的撒旦按时大
 const getLevelNum = (
   accArr: number,

@@ -17,17 +17,20 @@ import type {
 import styles from "./styles.module.scss";
 import { ICatalogProps, Catalog } from "../../components/catalog/index";
 import { IEssayProps, Essay } from "../../components/essay/index";
+import { IAuthorProps, Author} from "../../components/author/index";
 // import { Catalog } from "../../components/catalog/index"; // 如果不用传值，后面就要用这个
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 export interface IArticleProps {
   essayData: IEssayProps;
   catalogData: ICatalogProps;
+  authorData: IAuthorProps;
 }
 // FC
 export const Article: NextPage<IArticleProps> = ({
   catalogData,
   essayData,
+  authorData
 }) => {
   useEffect(() => {
     // window.addEventListener("scroll", handleScroll, true);
@@ -49,6 +52,7 @@ export const Article: NextPage<IArticleProps> = ({
         <Essay {...essayData} />
         <div className={styles.sideBar}>
           {/* 这个地方放 作者、广告插件 */}
+          <Author {...authorData}/>
           <Catalog {...catalogData} />
         </div>
       </div>
@@ -63,19 +67,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       articleId,
     },
   });
-
-  //   <div
-  //   dangerouslySetInnerHTML={{ __html: converter.makeHtml(content) }}
-  //   className={styles.content}
-  // />
+  const name =  await data?.author;
+  const  authorInfo = await axios.get(`${LOCALDOMAIN}/api/authorInfo`, {
+    params : {
+      authorName : name
+    }
+  })
   return {
     props: {
-      // catalogData: {
-      //   data: data.content,
-      //   writer: articleId,
-      // },
-      // catalogData: data.content,
       essayData: data,
+      authorData: authorInfo.data
     }, // 需要拿props包裹
   };
 };
