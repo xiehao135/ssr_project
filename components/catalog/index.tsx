@@ -2,20 +2,20 @@
  * @Description:文章结构的导航栏
  * @Author: Zjc
  * @Date: 2023-02-05 20:27:36
- * @LastEditTime: 2023-02-08 11:39:39
+ * @LastEditTime: 2023-02-12 21:49:51
  * @LastEditors: Do not edit
  */
 // 现在的问题是，获取不到scrollTop的值
 // 也就无法判断当前读的是哪个标题，不能随着滚动条变化目录样式
-import {
+import React, {
   FC,
   useEffect,
-  componentDidMount,
   useLayoutEffect,
   useState,
   useRef,
 } from "react";
 import styles from "./styles.module.scss";
+import { render } from "react-dom";
 
 export interface ICatalogProps {
   // 留着可能要传作者、标签 ,不用的话接口就删掉
@@ -23,20 +23,23 @@ export interface ICatalogProps {
   id: string;
   // linkList: ILinkList[];
 }
+
+let tarr:any = [];
 export const Catalog: FC<ICatalogProps> = ({ data }) => {
   const [headings, setHeadings] = useState([]); // heading信息
-  // const [contentHeightList, setcontentHeightList] = useState([]);
+  const [contentHeightList, setContentHeightList] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0); // 目录指针
-  // const cata = useRef();
-  useEffect(() => {
+  useLayoutEffect(() => {
     var n = Array.from(document.querySelectorAll("h1,h2,h3"));
     var levelArr: Array<number> = []; // 渲染等级 head1 , head2
-    // 这个地方头尾都有一个 h1 内容属于nav&footer 得删掉
+    var heightArr: Array<number> = []; // height.offset head1 , head2
+    // 这个地方头尾都有一个 h1 内容属于 nav&footer 得删掉
     var element = n.slice(1, n.length - 1).map((elem: any, idx) => {
       // 循环文章 h1-3 作为目录元素
       elem.setAttribute("id", `${idx}`);
+      // 获得内容高度 把所有获得到的子元素高度都放入arr中
+      heightArr.push(getChildrenHeigh(`${idx}`));
       // console.log("elem", elem);
-      // console.log("ele-", elem.scroolTop);
       if (!levelArr.length) {
         // 第一个直接等级为 1
         levelArr = [1];
@@ -54,9 +57,23 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
       };
     });
     setHeadings(element);
-    // 这个scrollTop 一直都是 0
-    // window.addEventListener("scroll", handleScroll, true);
-  }, []);
+    window.addEventListener("scroll", handleScroll, true);
+    const timer = setInterval(() => {
+      console.log("heightArr", heightArr);
+      // 给这个arr兜底，这样可以解决最后一个内容栏监听不到的bug
+      // 注意：如果最后一栏内容高度低于滚动条当前的高度，也不会高亮显示最后一栏的标题哦
+      heightArr[heightArr.length - 1] == Number.MAX_VALUE
+        ? null
+        : heightArr.push(Number.MAX_VALUE);
+      tarr = heightArr;
+      setContentHeightList(heightArr);
+      console.log("setContentHeightList", contentHeightList);
+    }, 1000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, [activeIndex, contentHeightList]);
   // componentDidMount(() => {
   //   // 监听滚动
   //   window.addEventListener("scroll", handleScroll, true);
@@ -64,59 +81,57 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
   //   // getChildrenHeigh();
   // });
   // 获取页面中每一栏内容的高度数组
-  // const getChildrenHeigh = () => {
-  //   // 获得他们的父元素节点
-  //   let pageScrooll = document.querySelector(".side-navBar").parentNode;
-  //   let arr = [];
-  //   // console.log(this.navLists.length);
-  //   // 将所有子元素的高度放入arr
-  //   for (let i = 0; i < this.navLists.length; i++) {
-  //     // 把所有获得到的子元素高度都放入arr中
-  //     arr.push(pageScrooll.children[i].offsetTop);
-  //   }
-  //   // 给这个arr兜底，这样可以解决最后一个内容栏监听不到的bug，注意：如果最后一栏内容高度低于滚动条当前的高度，也不会高亮显示最后一栏的标题哦
-  //   arr.push(Number.MAX_VALUE);
-  //   ContentHeightList = arr;
-  //   // console.log(this.ContentHeightList);
-  // };
+  const getChildrenHeigh = (node: string) => {
+    // 获得他们的父元素节点
+    let pageScroll = document.getElementById(node);
+    // 将所有子元素的高度放入arr 返回处理
+    return pageScroll.offsetTop;
+  };
   // 监听滚轮
   const handleScroll = () => {
     // 获得当前的滚轮高度
+    var node = document.getElementById("__next");
     var scrollTop =
       window.pageYOffset ||
       document.documentElement.scrollTop ||
-      document.body.scrollTop;
-    console.log(
-      "scrollTop",
-      window.pageYOffset,
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-    // let Heights = contentHeightList;
-    // // 只有contentHeightList存在才监听当前高度
-    // if (contentHeightList) {
-    //   // console.log(scrollTop);
-    //   for (let i = 0; i < Heights.length; i++) {
-    //     // 如果滚轮高度大于当前所在的子元素高度 并且 滚轮高度小于下一个子元素的高度 ，那么说明滚轮在当前内容中，就激活当前的nav栏
-    //     if (scrollTop >= Heights[i] && scrollTop <= Heights[i + 1]) {
-    //       // console.log(i);
-    //       // 那么就激活当前的nav栏
-    //       // moveIndex = i;
-    //       // return false;
-    //     }
-    //   }
-    // }
+      node?.scrollTop;
+    setContentHeightList(tarr);
+    console.log("scrollTop", scrollTop, contentHeightList, tarr);
+    // let Heights = tarr;
+    let Heights = contentHeightList;
+    // 只有contentHeightList存在才监听当前高度
+    if (tarr) {
+      console.log("监听1");
+      for (let i = 0; i < Heights.length; i++) {
+        console.log("监听2");
+        // 如果滚轮高度大于当前所在的子元素高度 并且 滚轮高度小于下一个子元素的高度 ，那么说明滚轮在当前内容中，就激活当前的nav栏
+        if (scrollTop >= Heights[i] && scrollTop <= Heights[i + 1]) {
+          // 那么就激活当前的nav栏
+          setActiveIndex(i);
+          console.log("监听 scrollToAnchorBySlider");
+          scrollToAnchorBySlider("cataBox", i);
+          return false;
+        }
+      }
+    }
   };
-  const scrollToAnchor = (anchorId: number) => {
+  const scrollToAnchorByID = (anchorId: number) => {
     if (anchorId) {
       // 找到锚点 id
       let anchorElement = document.getElementById(String(anchorId));
       setActiveIndex(anchorId);
       console.log("anchorId-Element", anchorId, anchorElement);
       // 如果对应id的锚点存在，就跳转到锚点
-      anchorElement?.scrollIntoView({ block: "start", behavior: "smooth" });
-      // 也修改一下bar的属性
+      anchorElement?.scrollIntoView({ block: "start", behavior: "auto" });
     }
+  };
+  const scrollToAnchorBySlider = (anchorName: string, id: number) => {
+    console.log("id", id);
+    let anchorElement = document.getElementById(anchorName);
+    // console.log("anchorName-Element", anchorName, anchorElement);
+    console.log("anchorName-Element", activeIndex, id, anchorElement.scrollTop);
+    anchorElement.scrollTop = (id - 5) * 40;
+    // 如果对应id的锚点存在，就跳转到锚点
   };
   return (
     <div className={styles["articleCatalog"]}>
@@ -125,6 +140,7 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
       </div>
       <div
         className={styles.catalogBody}
+        id="cataBox"
         style={{ height: `${(headings.length + 1) * 34}px` }}
       >
         <ul className={styles.catalogList}>
@@ -138,7 +154,7 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
                     href={`#heading-${heading.id}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      scrollToAnchor(`${heading.id}`);
+                      scrollToAnchorByID(`${heading.id}`);
                     }}
                   >
                     {heading.text}
@@ -153,6 +169,7 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
   );
 };
 const getClassName = (level: number) => {
+  // 根据 h1 h2 h3 返回 head1...
   switch (level) {
     case 1:
       return "head1";
@@ -169,7 +186,6 @@ const compareLevel = (acc: number, last: number) => {
   return acc > last ? 1 : acc == last ? 0 : -1;
 };
 
-// 的撒旦按时大
 const getLevelNum = (
   accArr: number,
   levelArr: Array<number>,
