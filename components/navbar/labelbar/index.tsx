@@ -6,25 +6,17 @@ import { Themes, Environment } from "@/constants/enum";
 import { Popup, IPopupRef } from "../../popup";
 import labelbar from "./labelbar.module.scss";
 
-export interface INavBarProps {}
+export interface ILaberBarProps {
+  fetchData: string[];
+}
 
-const fetchData = [
-  "综合",
-  "关注",
-  "后端",
-  "前端",
-  "Android",
-  "iOS",
-  "人工智能",
-  "开发工具",
-  "代码人生",
-  "阅读",
-];
 
-export const LabelBar: FC<INavBarProps> = ({}) => {
+
+export const LabelBar: FC<ILaberBarProps> = ({ fetchData }) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
+  console.log(fetchData);
 
   return (
     <div className={labelbar.con}>

@@ -6,20 +6,21 @@ import { Themes, Environment } from "@/constants/enum";
 import { Label } from "./label";
 import { Logo } from "./logo";
 import { Popup, IPopupRef } from "../../popup";
+import { ILabelProps } from "./label";
 
-export interface INavBarProps {}
+export type ITopbarProps = ILabelProps;
 
-export const Topbar: FC<INavBarProps> = ({}) => {
+export const Topbar: FC<ITopbarProps> = ({fetchData}) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
-
+console.log(fetchData);
 
   return (
-    <div className={styles.navBar}  id='topbar'>
+    <div className={styles.navBar} id="topbar">
       <div className={styles.logoAndLabel}>
         <Logo></Logo>
-        <Label></Label>
+        <Label {...{fetchData}}></Label>
       </div>
       <div className={styles.themeArea}>
         <div

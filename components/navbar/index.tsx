@@ -6,13 +6,111 @@ import { Themes, Environment } from "@/constants/enum";
 import { Popup, IPopupRef } from "../popup";
 import { Topbar } from "./topbar";
 import { LabelBar } from "./labelbar";
+import { ITopbarProps } from "./topbar/index";
+import { ILaberBarProps } from "./labelbar/index";
 
-export interface INavBarProps {}
+export interface INavBarProps {
+  topbarData: ITopbarProps;
+  labelBarData: ILaberBarProps;
+}
+const fetchData = [
+  {
+    text: "首页",
+    subtext: "",
+    url: "#",
+    blank: false,
+  },
 
-export const NavBar: FC<INavBarProps> = ({}) => {
+  {
+    text: "沸点",
+    subtext: "南北风俗",
+    url: "#",
+    blank: false,
+  },
+  {
+    text: "课程",
+    subtext: "",
+    url: "#",
+    blank: false,
+  },
+  {
+    text: "直播",
+    subtext: "",
+    url: "#",
+    blank: false,
+  },
+  {
+    text: "活动",
+    subtext: "",
+    url: "#",
+    blank: false,
+  },
+  {
+    text: "竞赛",
+    subtext: "",
+    url: "#",
+    blank: false,
+  },
+  {
+    text: "商城",
+    subtext: "",
+    url: "#",
+    blank: true,
+  },
+  {
+    text: "APP",
+    subtext: "邀请有礼",
+    url: "#",
+    blank: true,
+  },
+  {
+    text: "插件",
+    subtext: "",
+    url: "#",
+    blank: true,
+  },
+  // {
+  //   text: "比赛",
+  //   subtext: "",
+  //   url: "#",
+  //   blank: false,
+  // },
+  // {
+  //   text: "周边",
+  //   subtext: "",
+  //   url: "#",
+  //   blank: false,
+  // },
+  // {
+  //   text: "创作",
+  //   subtext: "",
+  //   url: "#",
+  //   blank: false,
+  // },
+  // {
+  //   text: "其他",
+  //   subtext: "",
+  //   url: "#",
+  //   blank: false,
+  // },
+];
+const fetchData2 = [
+  "综合",
+  "关注",
+  "后端",
+  "前端",
+  "Android",
+  "iOS",
+  "人工智能",
+  "开发工具",
+  "代码人生",
+  "阅读",
+];
+export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
+  topbarData = { fetchData };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,8 +130,8 @@ export const NavBar: FC<INavBarProps> = ({}) => {
   return (
     <div className={styles.headerCon}>
       <header className={styles.con} id="navbar">
-        <Topbar></Topbar>
-        <LabelBar></LabelBar>
+        <Topbar {...topbarData}></Topbar>
+        <LabelBar {...{ fetchData: fetchData2 }}></LabelBar>
       </header>
     </div>
   );
