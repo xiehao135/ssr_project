@@ -7,13 +7,7 @@
  */
 // 现在的问题是，获取不到scrollTop的值
 // 也就无法判断当前读的是哪个标题，不能随着滚动条变化目录样式
-import React, {
-  FC,
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useRef,
-} from "react";
+import React, { FC, useEffect, useLayoutEffect, useState, useRef } from "react";
 import styles from "./styles.module.scss";
 import { render } from "react-dom";
 
@@ -24,7 +18,7 @@ export interface ICatalogProps {
   // linkList: ILinkList[];
 }
 
-let tarr:any = [];
+let tarr: any = [];
 export const Catalog: FC<ICatalogProps> = ({ data }) => {
   const [headings, setHeadings] = useState([]); // heading信息
   const [contentHeightList, setContentHeightList] = useState([]);
@@ -147,7 +141,7 @@ export const Catalog: FC<ICatalogProps> = ({ data }) => {
           {headings.map((heading, index) => {
             const cls: any = index == activeIndex ? "catalogATag" : "";
             return (
-              <li key={heading.id} className={styles.catalogItem}>
+              <li key={heading.id} className={`${styles.catalogItem} ${cls}`}>
                 <div className={styles[getClassName(heading.level)]}>
                   <a
                     className={styles[`${cls}`]}
