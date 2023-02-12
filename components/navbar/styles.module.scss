@@ -1,11 +1,18 @@
 $maxWidth: 1149px;
 
+.headerCon {
+  position: relative;
+  height: 105px;
+  background-color: var(--navbar-background-color);
+}
+
 .con {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: var(--navbar-background-color);
+  z-index: 1000;
   // overflow: auto;
 }
 

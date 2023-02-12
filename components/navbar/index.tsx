@@ -30,7 +30,7 @@ export const NavBar: FC<INavBarProps> = ({}) => {
     window.addEventListener("scroll", handleScroll, true);
   }, []);
   return (
-    <div style={{ position: "relative" }}>
+    <div className={styles.headerCon}>
       <header className={styles.con} id="navbar">
         <Topbar></Topbar>
         <LabelBar></LabelBar>
