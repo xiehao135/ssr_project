@@ -1,24 +1,44 @@
+$maxWidth: 1149px;
+
+.con {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--navbar-background-color);
+  // overflow: auto;
+}
+
 .navBar {
+  transition: all .5s;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background-color: var(--navbar-background-color);
-  backdrop-filter: blur(0.5rem);
   width: 100%;
-  height: 4rem;
+  max-width: 1440px;
+  padding: 0 20px;
+  height: 60px;
   position: sticky;
   top: 0;
   left: 0;
-  padding: 1.25rem 2rem;
-  z-index: 100;
   box-sizing: border-box;
+  // 这里也要记得改颜色配置
+  border-bottom: 1px solid #f1f1f1;
+
+  @media (max-width: $maxWidth) {
+    height: 52px;
+  }
 
   .logoIcon {
-    width: 4.375rem;
-    height: 1.25rem;
+    width: 31px;
+    height: 31px;
     background-image: var(--navbar-icon);
-    background-size: 4.375rem 1.25rem;
+    background-size: contain;
     background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .themeArea {
@@ -44,5 +64,22 @@
       background-repeat: no-repeat;
       cursor: pointer;
     }
+  }
+}
+
+.hiddenTopbar {
+  // transform: translate3d(0,-100%,0);
+  height: 0;
+  top: 0;
+  overflow: hidden;
+}
+
+.logoAndLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  >div:nth-of-type(1) {
+    margin-right: 10px;
   }
 }
