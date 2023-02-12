@@ -45,7 +45,7 @@ export const Article: NextPage<IArticleProps> = ({
   return (
     <div className={styles.layout}>
       <div className={styles.content}>
-      {/* <Catalogc /> */}
+        {/* <Catalogc /> */}
         <Essay {...essayData} />
         <div className={styles.sideBar}>
           {/* 这个地方放 作者、广告插件 */}
