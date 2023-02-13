@@ -20,11 +20,13 @@ export const PostContent: FC<IPostProps> = ({
     createTime,
     content,
   }) => {
+    //const {tab} = categories?.data
     const converter = new showdown.Converter();
     return (
       <div className={styles.article}>
         <h1 className={styles.title}>{title}</h1>
         <div className={styles.info}>
+          {/* <h1>hillkl{categories?.data["categories"]}</h1> */}
           作者：{author} | 创建时间: {createTime}
         </div>
         <div className={styles.description}>{description}</div>

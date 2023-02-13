@@ -54,56 +54,17 @@ const Article: NextPage<IArticleProps> = ({
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const { articleId } = context.query;
-  const { data } = await axios.get(`${LOCALDOMAIN}/api/articleInfo`, {
+  const { data: infoData } = await axios.get(`${LOCALDOMAIN}/api/articleInfo`, {
     params: {
       articleId,
     },
   });
   return {
     props: {
-      articleData: data,
-      relatedData: {
-        title: "相关文章",
-        list: [
-            {
-                title:"掘金小测",
-                link: "https://juejin.cn/book/7137945369635192836/section/7141544003933061132?utm_source=post_pay_page"
-            },
-            {
-                title:"love me love me",
-                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
-            },
-            {
-                title:"lelouch",
-                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
-            },
-            {
-                title:"really really",
-                link: "https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
-            },
-            {
-                title:"love me love me",
-                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
-            },
-            {
-                title:"lelouch",
-                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
-            },{
-                title:"really really",
-                link: "https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
-            },
-            {
-                title:"love me love me",
-                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
-            },
-            {
-                title:"lelouch",
-                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
-            }
-        ]
-      }
-      
+      articleData: infoData.articleData,
+      relatedData: infoData.relatedData,
     }
+    
   }
 };
 
