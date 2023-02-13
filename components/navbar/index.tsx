@@ -1,4 +1,4 @@
-import { FC, useContext, useRef, useEffect } from "react";
+import { FC, useContext, useRef, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { ThemeContext } from "@/stores/theme";
 import { UserAgentContext } from "@/stores/userAgent";
@@ -8,6 +8,7 @@ import { Topbar } from "./topbar";
 import { LabelBar } from "./labelbar";
 import { ITopbarProps } from "./topbar/index";
 import { ILaberBarProps } from "./labelbar/index";
+import { useRouter } from "next/router";
 
 export interface INavBarProps {
   topbarData: ITopbarProps;
@@ -110,13 +111,16 @@ export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
-  topbarData = { fetchData };
+  const router = useRouter();
 
+  topbarData = { fetchData };
+  labelBarData = { textArr: fetchData2 };
+
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = document.documentElement.scrollTop;
       const topbar = document.querySelector("#topbar");
-
       if (scrollTop > 385) {
         topbar && topbar.classList.add(styles.hiddenTopbar);
       } else {
@@ -127,11 +131,24 @@ export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
     };
     window.addEventListener("scroll", handleScroll, true);
   }, []);
+
+  const [hiddenLabelBar, setHiddenLabelBar] = useState(false);
+
+  useEffect(() => {
+    if (router.route === "/") {
+      setHiddenLabelBar(false);
+    } else {
+      const navbar = document.querySelector("#navbar") as Element;
+      navbar.setAttribute("style", "height:60px");
+      setHiddenLabelBar(true);
+    }
+  }, [router.route]);
+
   return (
-    <div className={styles.headerCon}>
-      <header className={styles.con} id="navbar">
+    <div className={styles.headerCon} id="navbar">
+      <header className={styles.con}>
         <Topbar {...topbarData}></Topbar>
-        <LabelBar {...{ fetchData: fetchData2 }}></LabelBar>
+        {hiddenLabelBar ? "" : <LabelBar {...labelBarData}></LabelBar>}
       </header>
     </div>
   );

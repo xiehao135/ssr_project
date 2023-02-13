@@ -10,17 +10,17 @@ import { ILabelProps } from "./label";
 
 export type ITopbarProps = ILabelProps;
 
-export const Topbar: FC<ITopbarProps> = ({fetchData}) => {
+export const Topbar: FC<ITopbarProps> = ({ fetchData }) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
-console.log(fetchData);
+  // console.log(fetchData);
 
   return (
     <div className={styles.navBar} id="topbar">
       <div className={styles.logoAndLabel}>
         <Logo></Logo>
-        <Label {...{fetchData}}></Label>
+        <Label {...{ fetchData }}></Label>
       </div>
       <div className={styles.themeArea}>
         <div

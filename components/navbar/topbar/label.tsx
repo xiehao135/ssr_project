@@ -110,7 +110,7 @@ export const Label: FC<ILabelProps> = ({ fetchData }) => {
   // const label = ["首页", "沸点", "课程", "直播", "活动", "竞赛", "商城", "APP", "插件"];
   // 最宽468px
   const maxItem = 9;
-  console.log('aaaaaa',fetchData);
+  // console.log('aaaaaa',fetchData);
 
   const [label, setLabel] = useState(
     fetchData.map((item, index) => {
