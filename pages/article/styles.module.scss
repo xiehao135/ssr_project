@@ -1,22 +1,29 @@
 @import "../media.scss";
 
-.layout {
+.main-content {
   color: var(--primary-color);
   width: 100%;
   display: flex;
   justify-content: center;
   background-color: #f4f5f5;
-
-  .content {
+  
+  .article {
     max-width: 1120px;
     padding:20px 45px ;
     display: flex;
     justify-content: space-evenly;
-    .sideBar {
-      min-width: 300px;
-    }
+  }
+
+  .sidebar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 }
+
 
 @include media-ipad {
   .article {

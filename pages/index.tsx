@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import styles from "./index.module.scss";
-import cName from "classnames";
-import { ThemeContext } from "@/stores/theme";
-import { Pagination } from "@douyinfe/semi-ui";
-import axios from "axios";
-import { LOCALDOMAIN } from "@/utils";
-import { IArticleIntro } from "./api/articleIntro";
-import App from "next/app";
-import { IComponentProps } from "./_app";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
+import styles from './index.module.scss';
+import cName from 'classnames';
+import { ThemeContext } from '@/stores/theme';
+import { Pagination } from '@douyinfe/semi-ui';
+import axios from 'axios';
+import { LOCALDOMAIN } from '@/utils';
+import { IArticleIntro } from './api/articleIntro';
+import App from 'next/app';
+import { IComponentProps } from './_app';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface IProps {
   title: string;
@@ -24,13 +24,8 @@ interface IProps {
     total: number;
   };
 }
-const PageSize: Number = 6;
-const Home: NextPage<IProps & IComponentProps> = ({
-  title,
-  description,
-  articles,
-  isSupportWebp,
-}) => {
+
+const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp }) => {
   const [content, setContent] = useState(articles);
   const mainRef = useRef<HTMLDivElement>(null);
   const { theme } = useContext(ThemeContext);
@@ -45,10 +40,7 @@ const Home: NextPage<IProps & IComponentProps> = ({
 
   return (
     <div className={styles.container}>
-      <main
-        className={cName([styles.main, styles.withAnimation])}
-        ref={mainRef}
-      >
+      <main className={cName([styles.main, styles.withAnimation])} ref={mainRef}>
         <div
           className={cName({
             [styles.header]: true,
@@ -85,7 +77,7 @@ const Home: NextPage<IProps & IComponentProps> = ({
                 axios
                   .post(`${LOCALDOMAIN}/api/articleIntro`, {
                     pageNo,
-                    pageSize: PageSize,
+                    pageSize: 6,
                   })
                   .then(({ data }) => {
                     setContent({
@@ -108,13 +100,10 @@ const Home: NextPage<IProps & IComponentProps> = ({
 
 Home.getInitialProps = async (context): Promise<IProps> => {
   const { data: homeData } = await axios.get(`${LOCALDOMAIN}/api/home`);
-  const { data: articleData } = await axios.post(
-    `${LOCALDOMAIN}/api/articleIntro`,
-    {
-      pageNo: 1,
-      pageSize: PageSize,
-    }
-  );
+  const { data: articleData } = await axios.post(`${LOCALDOMAIN}/api/articleIntro`, {
+    pageNo: 1,
+    pageSize: 6,
+  });
 
   return {
     title: homeData.title,

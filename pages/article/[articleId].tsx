@@ -1,83 +1,110 @@
-/*
- * @Description:
- * @Author: Zjc
- * @Date: 2023-02-04 21:25:49
- * @LastEditTime: 2023-02-07 11:11:29
- * @LastEditors: Do not edit
- */
-import { LOCALDOMAIN } from "@/utils";
-import axios from "axios";
-import React, { useEffect } from "react";
-import type {
-  GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
-  NextPage,
-} from "next";
-import styles from "./styles.module.scss";
-import { ICatalogProps, Catalog } from "../../components/catalog/index";
-import { IEssayProps, Essay } from "../../components/essay/index";
-// import { Catalog } from "../../components/catalog/index"; // 如果不用传值，后面就要用这个
+import { LOCALDOMAIN } from '@/utils';
+import axios from 'axios';
+import React from 'react';
+import type { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import styles from './styles.module.scss';
+import { IPostProps, PostContent } from '@/components/article/article';
+import { RelatedProps, RelatedArticle } from '@/components/page/Post/related/related';
+import clsx from 'clsx';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-export interface IArticleProps {
-  essayData: IEssayProps;
-  catalogData: ICatalogProps;
-}
-// FC
-export const Article: NextPage<IArticleProps> = ({
-  catalogData,
-  essayData,
-}) => {
-  useEffect(() => {
-    // window.addEventListener("scroll", handleScroll, true);
-  }, []);
+const showdown = require('showdown');
 
-  const handleScroll = () => {
-    // 获得当前的滚轮高度
-    console.log(
-      "ar-scrollTop",
-      window.pageYOffset,
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    );
-  };
+export interface IArticleProps {
+  articleData: IPostProps,
+  relatedData: RelatedProps
+}
+
+const Article: NextPage<IArticleProps> = ({ 
+  articleData,
+  relatedData 
+}) => {
+  const converter = new showdown.Converter();
+  
   return (
-    <div className={styles.layout}>
-      <div className={styles.content}>
-        {/* <Catalogc /> */}
-        <Essay {...essayData} />
-        <div className={styles.sideBar}>
-          {/* 这个地方放 作者、广告插件 */}
-          <Catalog {...catalogData} />
-        </div>
+    <main className={styles['main-content']}>
+      <div className={styles.article}>
+        <PostContent {...articleData} />
       </div>
-    </div>
+      <aside className={clsx(styles.sidebar)}>
+          <RelatedArticle title={relatedData.title} list={relatedData.list} />
+      </aside>
+    </main>
+    // <div className={styles.article}>
+    //   <h1 className={styles.title}>{title}</h1>
+    //   <div className={styles.info}>
+    //     作者：{author} | 创建时间: {createTime}
+    //   </div>
+    //   <div className={styles.description}>{description}</div>
+    //   <div dangerouslySetInnerHTML={{ __html: converter.makeHtml(content) }} className={styles.content} />
+    // </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+// Article.getInitialProps = async (context): Promise<IArticleProps> => {
+//   // debugger;
+//   const { articleId } = context.query;
+//   const { data } = await axios.get(`${LOCALDOMAIN}/api/articleInfo`, {
+//     params: {
+//       articleId,
+//     },
+//   });
+//   return data;
+// };
+
+export const getServerSideProps: GetServerSideProps = async context => {
   const { articleId } = context.query;
   const { data } = await axios.get(`${LOCALDOMAIN}/api/articleInfo`, {
     params: {
       articleId,
     },
   });
-
-  //   <div
-  //   dangerouslySetInnerHTML={{ __html: converter.makeHtml(content) }}
-  //   className={styles.content}
-  // />
   return {
     props: {
-      // catalogData: {
-      //   data: data.content,
-      //   writer: articleId,
-      // },
-      // catalogData: data.content,
-      essayData: data,
-    }, // 需要拿props包裹
-  };
+      articleData: data,
+      relatedData: {
+        title: "相关文章",
+        list: [
+            {
+                title:"掘金小测",
+                link: "https://juejin.cn/book/7137945369635192836/section/7141544003933061132?utm_source=post_pay_page"
+            },
+            {
+                title:"love me love me",
+                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
+            },
+            {
+                title:"lelouch",
+                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
+            },
+            {
+                title:"really really",
+                link: "https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
+            },
+            {
+                title:"love me love me",
+                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
+            },
+            {
+                title:"lelouch",
+                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
+            },{
+                title:"really really",
+                link: "https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
+            },
+            {
+                title:"love me love me",
+                link:"https://www.bilibili.com/video/BV1eM4y197JX/?spm_id_from=333.999.0.0"
+            },
+            {
+                title:"lelouch",
+                link:"https://www.lndayp.com/dongman/fanpandeluluxiu/2-24.html"
+            }
+        ]
+      }
+      
+    }
+  }
 };
 
 // ssg;
