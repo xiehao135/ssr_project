@@ -1,4 +1,4 @@
-import { FC, useContext, useRef } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { ThemeContext } from "@/stores/theme";
 import { UserAgentContext } from "@/stores/userAgent";
@@ -6,33 +6,40 @@ import { Themes, Environment } from "@/constants/enum";
 import { Popup, IPopupRef } from "../../popup";
 import labelbar from "./labelbar.module.scss";
 
-export interface INavBarProps {}
+export interface ILaberBarProps {
+  textArr: string[];
+}
 
-const fetchData = [
-  "综合",
-  "关注",
-  "后端",
-  "前端",
-  "Android",
-  "iOS",
-  "人工智能",
-  "开发工具",
-  "代码人生",
-  "阅读",
-];
-
-export const LabelBar: FC<INavBarProps> = ({}) => {
+export const LabelBar: FC<ILaberBarProps> = ({ textArr }) => {
   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
 
+  const [label, setLabel] = useState(
+    textArr.map((item, index) => {
+      if (index == 0) {
+        return {
+          text: item,
+          active: true,
+        };
+      }
+      return {
+        text: item,
+        active: false,
+      };
+    })
+  );
+
   return (
-    <div className={labelbar.con}>
+    <div className={labelbar.con} id="labelBar">
       <div className={labelbar.list}>
-        {fetchData.map((item, index) => {
+        {label.map((item, index) => {
           return (
-            <div key={index} className={labelbar.item}>
-              {item}
+            <div
+              key={index}
+              className={labelbar.item + " " + (item.active ? labelbar.activeItem : "")}
+            >
+              {item.text}
             </div>
           );
         })}

@@ -11,7 +11,7 @@ $maxWidth: 1149px;
   top: 0;
   left: 0;
   right: 0;
-  background-color: var(--navbar-background-color);
+  background-color: inherit;
   z-index: 1000;
   // overflow: auto;
 }
@@ -21,7 +21,7 @@ $maxWidth: 1149px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--navbar-background-color);
+  // background-color: var(--navbar-background-color);
   width: 100%;
   max-width: 1440px;
   padding: 0 20px;
@@ -31,8 +31,9 @@ $maxWidth: 1149px;
   left: 0;
   box-sizing: border-box;
   // 这里也要记得改颜色配置
-  border-bottom: 1px solid #f1f1f1;
-
+  // border-bottom: 1px solid #f1f1f1;
+  box-shadow: 0 1px 2px 0 #f1f1f1;
+  
   @media (max-width: $maxWidth) {
     height: 52px;
   }
