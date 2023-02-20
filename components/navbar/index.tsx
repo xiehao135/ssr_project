@@ -112,9 +112,10 @@ export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
   const router = useRouter();
+console.log('q1111',topbarData);
 
   topbarData = { textArr:fetchData };
-  labelBarData = { textArr: fetchData2 };
+  // labelBarData = { textArr: fetchData2 };
 
   
   useEffect(() => {
