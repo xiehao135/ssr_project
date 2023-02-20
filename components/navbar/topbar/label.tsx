@@ -4,7 +4,7 @@ import { UserAgentContext } from "@/stores/userAgent";
 import { Themes, Environment } from "@/constants/enum";
 import topbar from "./topbar.module.scss";
 
-// const fetchData = [
+// const textArr = [
 //   {
 //     text: "首页",
 //     subtext: "",
@@ -95,10 +95,10 @@ type labelType = {
 };
 
 export interface ILabelProps {
-  fetchData: labelType[];
+  textArr: labelType[];
 }
 
-export const Label: FC<ILabelProps> = ({ fetchData }) => {
+export const Label: FC<ILabelProps> = ({ textArr }) => {
   //   const { setTheme } = useContext(ThemeContext);
   const { userAgent } = useContext(UserAgentContext);
   const listClass =
@@ -110,10 +110,10 @@ export const Label: FC<ILabelProps> = ({ fetchData }) => {
   // const label = ["首页", "沸点", "课程", "直播", "活动", "竞赛", "商城", "APP", "插件"];
   // 最宽468px
   const maxItem = 9;
-  // console.log('aaaaaa',fetchData);
+  // console.log('aaaaaa',textArr);
 
   const [label, setLabel] = useState(
-    fetchData.map((item, index) => {
+    textArr.map((item, index) => {
       if (index == 0) {
         return {
           ...item,

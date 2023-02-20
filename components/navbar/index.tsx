@@ -113,7 +113,7 @@ export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
   const popupRef = useRef<IPopupRef>(null);
   const router = useRouter();
 
-  topbarData = { fetchData };
+  topbarData = { textArr:fetchData };
   labelBarData = { textArr: fetchData2 };
 
   
