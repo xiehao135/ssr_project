@@ -13,6 +13,7 @@ const getArticleInfoData = (req: NextApiRequest, res: NextApiResponse<IArticlePr
     category?.data[0]?.article_infos.data.forEach(item => {
       item.articleId != articleId && related_arr.push(item)
     });
+    let arrData = related_arr.slice(0,10)
     res.status(200).json({
       articleData: {
         title,
@@ -23,7 +24,7 @@ const getArticleInfoData = (req: NextApiRequest, res: NextApiResponse<IArticlePr
       },
       relatedData:{
         title: "相关文章",
-        list: related_arr.map((_item:any) => ({
+        list: arrData.map((_item:any) => ({
           title:_item.title,
           link: `${LOCALDOMAIN}/article/${_item.articleId}`
         }))

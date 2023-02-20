@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { useContext } from "react";
 import { FC } from "react";
 
 import cName from "classnames";
@@ -43,27 +41,6 @@ export const RelatedArticle: FC<RelatedProps> = ({
                 }
             </div>
         </div>
-        // <Card title={title} style={{width:300}}>
-        //     <div className={styles.list}>
-        //         {
-        //             list?.map((item, index) => {
-        //                 return (
-        //                     <div
-        //                         className={cName({
-        //                             [styles.link]: item.link
-        //                         })}
-        //                         onClick={(): void => {
-        //                             item.link && window.open(item.link, "blank", "noopener=yes,noreferrer=yes")
-        //                         }}
-        //                         key={`link${index}`}
-        //                     >
-        //                         {item.title}
-        //                     </div>
-        //                 )
-        //             })
-        //         }
-        //     </div>
-        // </Card>
         
     )
 }
