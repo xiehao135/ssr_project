@@ -11,6 +11,7 @@ import App from 'next/app';
 import { IComponentProps } from './_app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 interface IProps {
   title: string;
@@ -20,6 +21,7 @@ interface IProps {
       label: string;
       info: string;
       link: string;
+      publishTime: string
     }[];
     total: number;
   };
@@ -56,6 +58,7 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
               <div className={styles.card}>
                 <h2>{item.label} &rarr;</h2>
                 <p>{item.info}</p>
+                <p>{item.publishTime}</p>
               </div>
             </Link>
             // <div
@@ -69,31 +72,15 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
             //   <p>{item.info}</p>
             // </div>
           ))}
-          <div className={styles.paginationArea}>
-            <Pagination
-              total={content?.total}
-              pageSize={6}
-              onPageChange={(pageNo: number): void => {
-                axios
-                  .post(`${LOCALDOMAIN}/api/articleIntro`, {
-                    pageNo,
-                    pageSize: 6,
-                  })
-                  .then(({ data }) => {
-                    setContent({
-                      list: data.list.map((item: IArticleIntro) => ({
-                        label: item.label,
-                        info: item.info,
-                        link: `${LOCALDOMAIN}/article/${item.articleId}`,
-                      })),
-                      total: data.total,
-                    });
-                  });
-              }}
-            />
-          </div>
         </div>
       </main>
+      {/* <div className={styles.right}>
+        <div>
+            <a href=''>
+                <Image src={ require("@/public/logo_light.png") } alt="demo"></Image>
+            </a>
+        </div>
+      </div> */}
     </div>
   );
 };

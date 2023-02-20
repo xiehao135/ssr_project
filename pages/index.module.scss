@@ -12,8 +12,9 @@
 }
 
 .container {
-  padding: 0 2rem;
+  padding: 1rem 8rem 0 8rem;
   color: var(--primary-color);
+  display: flex;
 
   .main {
     min-height: 100vh;
@@ -69,12 +70,11 @@
 
     .grid {
       display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
+      flex-direction: column;
+      align-items: center;
       flex-wrap: wrap;
-      max-width: 62.5rem;
-      transition: 2s;
-      min-height: 36.25rem;
+      width: 95%;
+      min-height: 26.25rem;
       .card {
         margin: 1rem;
         padding: 1.5rem;
@@ -84,9 +84,9 @@
         border: 0.0625rem solid var(--footer-background-color);
         border-radius: 0.625rem;
         transition: color 0.15s ease, border-color 0.15s ease;
-        max-width: 18.75rem;
+        max-width: 48rem;
         cursor: pointer;
-        width: 18.75rem;
+        width: 90%;
         height: 13.875rem;
       }
 
@@ -282,6 +282,12 @@
     100% {
       @include finalStatus;
     }
+  }
+}
+
+@media screen and (max-width: 65rem) {
+  .container {
+    padding: 0;
   }
 }
 
