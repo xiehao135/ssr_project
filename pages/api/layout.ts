@@ -8,6 +8,8 @@ const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>):
   axios.get(`${CMSDOMAIN}/api/layouts`).then(result => {
     const {
       category_lists,
+      advertisement_infos,
+      author_lists,
       topbar_lists,
       copy_right,
       link_lists,
@@ -17,18 +19,16 @@ const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>):
       site_number,
       title,
     } = result.data || {};
-    console.log("aaaa", result.data,topbar_lists);
-    // categories
-    // category_lists[0].textArr.map((item:any)=>{
-    //   return item.categories
-    // })
+    console.log("看看返回的数据", result.data);
+
     res.status(200).json({
-      navbarData: {
-        topbarData: topbar_lists,
-        labelBarData: {
-          textArr:[]
-        },
-      },
+      // navbarData: {
+      //   topbarData: topbar_lists?.data,
+      // labelBarData:category_lists?.data.map((item:any)=>{
+      //   textArr:item.categories
+      // }),
+      // },
+      navbarData: {},
       footerData: {
         title,
         linkList: link_lists?.data?.map((item: any) => ({
@@ -51,18 +51,18 @@ const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>):
           image: `${CMSDOMAIN}${item.imageUrl.data?.url}`,
           text: item.imageUrl.data?.name,
           jumpUrl: item.jumpUrl,
-          name: item.name
-        }))
+          name: item.name,
+        })),
       },
       authorInfo: {
         list: author_lists?.data?.map((item: any) => ({
           name: item.name,
           avatar: item.avatar,
           description: item.description,
-          level: item.level
+          level: item.level,
         })),
-        total: 0
-      }
+        total: 0,
+      },
     });
   });
 };

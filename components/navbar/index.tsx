@@ -112,12 +112,12 @@ export const NavBar: FC<INavBarProps> = ({ topbarData, labelBarData }) => {
   const { userAgent } = useContext(UserAgentContext);
   const popupRef = useRef<IPopupRef>(null);
   const router = useRouter();
-console.log('q1111',topbarData);
+  // console.log('q1111',topbarData);
 
-  topbarData = { textArr:fetchData };
-  // labelBarData = { textArr: fetchData2 };
+  // 写死数据：
+  topbarData = { textArr: fetchData };
+  labelBarData = { textArr: fetchData2 };
 
-  
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = document.documentElement.scrollTop;
