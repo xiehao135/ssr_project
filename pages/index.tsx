@@ -34,7 +34,13 @@ interface IProps {
   };
 }
 
-const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp}) => {
+const PageSize: Number = 6;
+const Home: NextPage<IProps & IComponentProps> = ({
+  title,
+  description,
+  articles,
+  isSupportWebp,
+}) => {
   const [content, setContent] = useState(articles);
   const [likeList, setLikeList] = useState([] as any);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -71,7 +77,10 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
 
   return (
     <div className={styles.container}>
-      <main className={cName([styles.main, styles.withAnimation])} ref={mainRef}>
+      <main
+        className={cName([styles.main, styles.withAnimation])}
+        ref={mainRef}
+      >
         <div className={styles.grid}>
           {content?.list?.map((item, index) => (
             <Link href={item.link} key={index}>
@@ -117,6 +126,29 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
             //   <p>{item.info}</p>
             // </div>
           ))}
+          {/* <div className={styles.paginationArea}>
+            <Pagination
+              total={content?.total}
+              pageSize={6}
+              onPageChange={(pageNo: number): void => {
+                axios
+                  .post(`${LOCALDOMAIN}/api/articleIntro`, {
+                    pageNo,
+                    pageSize: PageSize,
+                  })
+                  .then(({ data }) => {
+                    setContent({
+                      list: data.list.map((item: IArticleIntro) => ({
+                        label: item.label,
+                        info: item.info,
+                        link: `${LOCALDOMAIN}/article/${item.articleId}`,
+                      })),
+                      total: data.total,
+                    });
+                  });
+              }}
+            />
+          </div> */}
         </div>
       </main>
       {/* <div className={styles.right}>
@@ -132,10 +164,6 @@ const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles
 
 Home.getInitialProps = async (context): Promise<IProps> => {
   const { data: homeData } = await axios.get(`${LOCALDOMAIN}/api/home`);
-  const { data: articleData } = await axios.post(`${LOCALDOMAIN}/api/articleIntro`, {
-    pageNo: 1,
-    pageSize: 6,
-  });
   const { data: authorData } = await axios.post(`${LOCALDOMAIN}/api/author`);
   // axios.post(`${LOCALDOMAIN}/api/articleIntro`, {
   //   pageNo: 1,
@@ -146,6 +174,13 @@ Home.getInitialProps = async (context): Promise<IProps> => {
   // axios.post(`${LOCALDOMAIN}/api/author`).then((res)=>{
   //   console.log(res.data)
   // });
+  const { data: articleData } = await axios.post(
+    `${LOCALDOMAIN}/api/articleIntro`,
+    {
+      pageNo: 1,
+      pageSize: PageSize,
+    }
+  );
 
   return {
     title: homeData.title,

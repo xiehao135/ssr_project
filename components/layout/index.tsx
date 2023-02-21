@@ -33,7 +33,7 @@ export const Layout: FC<ILayoutProps & { children: JSX.Element }> = ({
       <NavBar {...navbarData} />
       <div className={styles.content}>
         <main className={styles.main}>{children}</main>
-        <div className={styles.right}>
+        <div className={styles.right} style={{display: children.type.name !== 'Home'?'none':''}}>
           <Advertisement {...advertisementData}></Advertisement>
           <div className = {styles.userblock}>
             <div className = {styles.userblock_head}>🎖️作者榜</div>
