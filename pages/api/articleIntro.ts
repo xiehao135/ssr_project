@@ -6,10 +6,16 @@ export interface IArticleIntro {
   label: string;
   info: string;
   articleId: number;
+  watch: number,
+  like: number,
+  comment: number,
+  author: string,
+  types: string,
+  publishedAt: string;
 }
 
 interface IArticleIntroProps {
-  list: Array<{ label: string; info: string; articleId: number }>;
+  list: Array<{ label: string; info: string; articleId: number; publishedAt: string, watch: number, like: number, comment: number, types:string, author: string }>;
   total: number;
 }
 
@@ -24,7 +30,6 @@ const getArticleIntroData = (req: NextApiRequest, res: NextApiResponse<IArticleI
     })
     .then(result => {
       const { data, meta } = result.data || {};
-
       res.status(200).json({
         list: Object.values(data),
         total: meta.pagination.total,

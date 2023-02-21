@@ -14,17 +14,8 @@ export interface IComponentProps {
   isSupportWebp?: boolean;
 }
 
-const MyApp = (
-  data: AppProps & ILayoutProps & IComponentProps
-): JSX.Element => {
-  const {
-    Component,
-    pageProps,
-    navbarData,
-    footerData,
-    isMobile,
-    isSupportWebp,
-  } = data;
+const MyApp = (data: AppProps & ILayoutProps & IComponentProps): JSX.Element => {
+  const { Component, pageProps, navbarData, footerData, advertisementData, authorInfo, isMobile, isSupportWebp } = data;
 
   return (
     <div>
@@ -45,12 +36,8 @@ const MyApp = (
       <LanguageContextProvider>
         <ThemeContextProvider>
           <UserAgentProvider>
-            <Layout navbarData={navbarData} footerData={footerData}>
-              <Component
-                {...pageProps}
-                isMobile={isMobile}
-                isSupportWebp={isSupportWebp}
-              />
+            <Layout navbarData={navbarData} footerData={footerData} advertisementData={advertisementData} authorInfo={authorInfo}>
+              <Component {...pageProps} isMobile={isMobile} isSupportWebp={isSupportWebp}/>
             </Layout>
           </UserAgentProvider>
         </ThemeContextProvider>
@@ -63,6 +50,7 @@ MyApp.getInitialProps = async (
   context: AppContext
 ): Promise<AppProps & ILayoutProps & IComponentProps> => {
   const pageProps = await App.getInitialProps(context);
+  console.log(pageProps)
   const { data = {} } = await axios.get(`${LOCALDOMAIN}/api/layout`);
 
   return {

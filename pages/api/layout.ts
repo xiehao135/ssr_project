@@ -46,6 +46,23 @@ const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>):
         siteNumber: site_number,
         publicNumber: public_number,
       },
+      advertisementData: {
+        advertisementImgs: advertisement_infos?.data?.map((item: any) => ({
+          image: `${CMSDOMAIN}${item.imageUrl.data?.url}`,
+          text: item.imageUrl.data?.name,
+          jumpUrl: item.jumpUrl,
+          name: item.name
+        }))
+      },
+      authorInfo: {
+        list: author_lists?.data?.map((item: any) => ({
+          name: item.name,
+          avatar: item.avatar,
+          description: item.description,
+          level: item.level
+        })),
+        total: 0
+      }
     });
   });
 };

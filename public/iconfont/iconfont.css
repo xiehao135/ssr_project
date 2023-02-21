@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3906474 */
+  src: url('iconfont.woff2?t=1676898774220') format('woff2'),
+       url('iconfont.woff?t=1676898774220') format('woff'),
+       url('iconfont.ttf?t=1676898774220') format('truetype');
+}
+
+.icon-yanjing:before {
+  content: "\e661";
+}
+
+.icon-pinglun:before {
+  content: "\e651";
+}
+
+.icon-zan:before {
+  content: "\e655";
+}
+
