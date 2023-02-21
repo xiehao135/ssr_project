@@ -17,6 +17,7 @@ html[data-theme="dark"] {
   --popup-content-background-color: #1f1f1f;
   --home-background-icon: url("../public/home_bg_dark.png");
   --home-background-icon-webp: url("../public/home_bg_dark.webp");
+  --article-introduction-block-color: #e4e4e4;
 }
 
 html[data-theme="light"] {
@@ -36,6 +37,7 @@ html[data-theme="light"] {
   --popup-content-background-color: #f4f5f5;
   --home-background-icon: url("../public/home_bg_light.png");
   --home-background-icon-webp: url("../public/home_bg_light.webp");
+  --article-introduction-block-color: rgb(236, 236, 236)
 }
 
 html,

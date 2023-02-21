@@ -13,6 +13,7 @@ import { IComponentProps } from './_app';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import moment from 'moment';
 
 interface IProps {
   title: string;
@@ -22,79 +23,87 @@ interface IProps {
       label: string;
       info: string;
       link: string;
-      publishTime: string
-    }[];
-    total: number;
-  };
-  authors: {
-    list: {
-      name: string;
-      avatar: string;
-      description: string;
-      level: string;
+      watch: number;
+      like: number;
+      comment: number;
+      author: string;
+      types: string;
+      publishedAt: string;
     }[];
     total: number;
   };
 }
 
-const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp,authors }) => {
+const Home: NextPage<IProps & IComponentProps> = ({ title, description, articles, isSupportWebp}) => {
   const [content, setContent] = useState(articles);
-  const [authorInfo, setAuthorInfo] = useState(authors);
+  const [likeList, setLikeList] = useState([] as any);
   const mainRef = useRef<HTMLDivElement>(null);
   const { theme } = useContext(ThemeContext);
   const router = useRouter();
 
-  useEffect(() => {
-    mainRef.current?.classList.remove(styles.withAnimation);
-    window.requestAnimationFrame(() => {
-      mainRef.current?.classList.add(styles.withAnimation);
-    });
-  }, [theme]);
+  function clickLike(e: any) {
+    e.stopPropagation()
+    let targetId = e.target.id
+    const newList = content?.list
+    const newLikeList = likeList
+    if (newLikeList.includes(targetId)) {
+      newList.map((item, index) => {
+        if (item.label === targetId) {
+          item.like -= 1;
+        }
+      })
+      newLikeList.splice(newLikeList.indexOf(targetId),1)
+    } else {
+      newList.map((item, index) => {
+        if (item.label === targetId) {
+          item.like += 1;
+        }
+      })
+      setLikeList([...likeList, targetId])
+      newLikeList.push(targetId)
+    }
+    setContent({
+      list: newList,
+      total: content.total
+    })
+    setLikeList(newLikeList)
+  }
 
   return (
     <div className={styles.container}>
       <main className={cName([styles.main, styles.withAnimation])} ref={mainRef}>
-        <div
-          className={cName({
-            [styles.header]: true,
-            [styles.headerWebp]: isSupportWebp,
-          })}
-        />
-
-        <div className = {styles.userblock}>
-          <div className = {styles.userblock_head}>🎖️作者榜</div>
-          <div className = {styles.userblock_list}>
-            {authorInfo?.list?.map((item, index)=> (
-              <a href='https://www.juejin.cn' className = {styles.userblock_list_item} target="_blank">
-                <div className={styles.userblock_list_item_link}>
-                  <img src={item.avatar} className={styles.userblock_list_item_link_left}></img>
-                  <div className={styles.userblock_list_item_link_right}>
-                    <div className={styles.userblock_list_item_link_right_top}>
-                      <div className={styles.userblock_list_item_link_right_top_name}>{item.name}</div>
-                      <img src={item.level} width={35}></img>
-                    </div>
-                    <div className={styles.userblock_list_item_link_right_bottom}>{item.description}</div>
-                  </div>
-                </div>
-              </a>
-            ))
-           }
-          </div>
-          <a href='https://www.juejin.cn' target="_blank">
-            <div className={styles.userblock_bottom}>完整榜单</div>
-          </a>
-        </div>
-
-        <h1 className={styles.title}>{title}</h1>
-        <p className={styles.description}>{description}</p>
-
         <div className={styles.grid}>
           {content?.list?.map((item, index) => (
             <Link href={item.link} key={index}>
               <div className={styles.card}>
-                <h2>{item.label} &rarr;</h2>
+                <div className={styles.cardHead}>
+                  <div className={styles.cardHeadBlock}>{item.author}</div>
+                  <div className={styles.cardHeadBlock}>{item.publishedAt}</div>
+                  <div className={styles.cardHeadBlock} style={{ opacity: item.types == ' ' ? 0 : 1 }}>{
+                    item.types?.split('&').map((val, ind) => (
+                      <div key={index} style={{display:'flex'}}>
+                        <div className={styles.cardHeadBlockChild}>{val}</div>
+                        <span style={{ opacity: ind == item.types.split('&').length-1 ? 0 : 1 }}>·</span>
+                      </div>
+                    ))
+                  }</div>
+                </div>
+                <h2>{item.label}</h2>
                 <p>{item.info}</p>
-                <p>{item.publishTime}</p>
+                <div className={styles.socialList}>
+                  <div className={styles.socialListBlock}>
+                    <span className={styles.iconfont}>&#xe661;</span>
+                    {item.watch}
+                  </div>
+                  <div className={styles.socialListBlock} onClick={clickLike}  id={item.label}style={{color: (likeList.includes(item.label)) ? "#34a8eb": "inherit"}}>
+                    <span className={styles.iconfont} id={item.label}>&#xe655;</span>
+                    {item.like != 0?item.like:''}
+                  </div>
+                  <div className={styles.socialListBlock}>
+                    <span className={styles.iconfont}>&#xe651;</span>
+                    {item.comment != 0?item.comment:''}
+                  </div>
+                </div>
               </div>
             </Link>
             // <div
@@ -146,21 +155,16 @@ Home.getInitialProps = async (context): Promise<IProps> => {
         label: item.label,
         info: item.info,
         link: `${LOCALDOMAIN}/article/${item.articleId}`,
+        watch: item.watch,
+        like: item.like,
+        comment: item.comment,
+        author: item.author,
+        types: item.types,
+        publishedAt: moment(item.publishedAt).locale("zh-cn").startOf('day').fromNow(),
       })),
       total: articleData.total,
     },
-    authors: {
-      list: authorData.list.map((item: IAuthor) =>({
-        name:item.name,
-        avatar:item.avatar,
-        description:item.description,
-        level:item.level
-      })),
-      total: authorData.total,
-    }
   };
-  
-  
 };
 
 // export const getServerSideProps: GetServerSideProps = async context => {

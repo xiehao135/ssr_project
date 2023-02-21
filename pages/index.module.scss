@@ -1,4 +1,5 @@
 @import "./media.scss";
+@import "../public/iconfont/iconfont.css";
 
 @mixin initStatus {
   transform: translate3d(0, 2.5rem, 0);
@@ -12,13 +13,11 @@
 }
 
 .container {
-  padding: 1rem 8rem 0 8rem;
   color: var(--primary-color);
   display: flex;
 
   .main {
     min-height: 100vh;
-    padding: 4rem 0;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -68,119 +67,112 @@
       font-size: 1.5rem;
     }
 
-    // 添加的userblock模块的css
-    .userblock{
-      background-color: white;
-      border-radius: 2px;
-      box-shadow: 0 1px 2px 0 rgb(0 0 0/5%);
-      font-size: 14px;
-      line-height: 1.29;
-      color: #333;
-      margin-bottom: 1.3rem;
-      width: 240px;
-      .userblock_head{
-        padding: 12px 15px;
-        border-bottom: 1px solid hsla(0,0%,59.2%,.1);
-      }
-      .userblock_list{
-        display: flex;
-        flex-direction: column;
-
-        .userblock_list_item{
-
-          .userblock_list_item_link{
-            display: flex;
-            flex-direction: row;
-            width: 210px;
-            margin: 12px 15px;
-  
-            .userblock_list_item_link_left{
-              width:45.6px;
-              border-radius: 50%;
-              overflow: hidden;
-            }
-
-            .userblock_list_item_link_right{
-              display: flex;
-              flex-direction: column;
-              margin-left: 6px;
-              justify-content: space-around;
-  
-              .userblock_list_item_link_right_top{
-                display: flex;
-                flex-direction: row;
-  
-                .userblock_list_item_link_right_top_name{
-                  margin-right: 3px;
-                  max-width: 112px;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: nowrap;
-                  word-break: keep-all;
-                }
-              }
-  
-              .userblock_list_item_link_right_bottom{
-                color:#909090;
-                font-size: 12px;
-                max-width: 150px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                word-break: keep-all;
-              }
-            }
-  
-          }
-        }
-      }
-      .userblock_bottom{
-        padding: 12px 15px;
-        border-top: 1px solid hsla(0,0%,59.2%,.1);
-        color: #007fff;
-        text-align: center;
-      }
-    }
- // end
-
     .grid {
       display: flex;
       flex-direction: column;
       align-items: center;
       flex-wrap: wrap;
       width: 95%;
-      min-height: 26.25rem;
+      min-height: 18.25rem;
       .card {
-        margin: 1rem;
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
         padding: 1.5rem;
+        padding-bottom: 0.2rem;
         text-align: left;
         color: inherit;
         text-decoration: none;
-        border: 0.0625rem solid var(--footer-background-color);
-        border-radius: 0.625rem;
+        border-bottom: 0.0625rem solid var(--footer-background-color);
         transition: color 0.15s ease, border-color 0.15s ease;
         max-width: 48rem;
         cursor: pointer;
         width: 90%;
-        height: 13.875rem;
+        height: 9.875rem;
+
+        .cardHead {
+          display: flex;
+          flex-direction: row;
+          justify-content: left;
+          width: 60%;
+          min-width: 16rem;
+          font-size: 0.875rem;
+          line-height: 1.5;
+        }
+
+        .cardHeadBlock:nth-child(1){
+          padding-right: 0.5rem;
+          border-right: 1px solid var(--secondary-color);
+        }
+
+        .cardHeadBlock:nth-child(1):hover {
+          color:var(--link-color)
+        }
+
+        .cardHeadBlock:nth-child(3) {
+          border-left: 1px solid var(--secondary-color);
+          display: flex;
+          flex-direction: row;
+          .cardHeadBlockChild:hover{
+            color: var(--link-color)
+          }
+          .cardHeadBlockChild:nth-child(1) {
+            margin-right: .3rem;
+          }
+          .cardHeadBlockChild:nth-child(n+1) {
+            margin: 0 0.3rem;
+          }
+        }
+
+        .cardHeadBlock:nth-child(n+2) {
+          padding: 0 0.5rem;
+        }
+
+        .socialList{
+          width: 12rem;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-around;
+        }
+
+        .socialListBlock {
+          width: 4rem;
+          font-size: 1rem;
+        }
+
+        .socialListBlock:nth-child(n+2):hover{
+          color:var(--link-color);
+        }
+
+        .iconfont {
+          font-family: "iconfont" !important;
+          font-style: normal;
+          padding-right: 0.2rem;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
       }
 
       .card:hover,
       .card:focus,
       .card:active {
-        color: var(--link-color);
-        border-color: var(--link-color);
+        background-color: var(--article-introduction-block-color);
       }
 
       .card h2 {
         margin: 0 0 1rem 0;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
+        overflow: hidden;/*超出的部分隐藏起来。*/
+        white-space: nowrap;/*不让文本换行,在一行显示*/
+        text-overflow: ellipsis;/*超出显示...*/
       }
 
       .card p {
-        margin: 0;
-        font-size: 1.25rem;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
         line-height: 1.5;
+        overflow: hidden;/*超出的部分隐藏起来。*/
+        white-space: nowrap;/*不让文本换行,在一行显示*/
+        text-overflow: ellipsis;/*超出显示...*/
       }
     }
 
@@ -210,40 +202,6 @@
           background-color: var(--semi-page-active-background-color);
         }
       }
-    }
-  }
-
-  .withAnimation {
-    .title {
-      animation: fadeInDown1 1s;
-    }
-
-    .description {
-      animation: fadeInDown2 1s;
-    }
-
-    .card:nth-of-type(1) {
-      animation: fadeInDown3 1s;
-    }
-
-    .card:nth-of-type(2) {
-      animation: fadeInDown4 1s;
-    }
-
-    .card:nth-of-type(3) {
-      animation: fadeInDown5 1s;
-    }
-
-    .card:nth-of-type(4) {
-      animation: fadeInDown6 1s;
-    }
-
-    .card:nth-of-type(5) {
-      animation: fadeInDown7 1s;
-    }
-
-    .card:nth-of-type(6) {
-      animation: fadeInDown8 1s;
     }
   }
 
@@ -399,10 +357,20 @@
           h2 {
             font-size: 1.125rem;
             line-height: 1.5625rem;
+            overflow: hidden;
+            /*超出的部分隐藏起来。*/
+            white-space: nowrap;
+            /*不让文本换行,在一行显示*/
+            text-overflow: ellipsis;
+            /*超出显示...*/
           }
           p {
+            width: 25rem;
             font-size: 0.75rem;
             line-height: 1.625rem;
+            overflow: hidden;/*超出的部分隐藏起来。*/
+            white-space: nowrap;/*不让文本换行,在一行显示*/
+            text-overflow: ellipsis;/*超出显示...*/
           }
         }
       }

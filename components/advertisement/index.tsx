@@ -30,6 +30,11 @@ export const Advertisement: FC<IAdvertisementProps> = ({
         e.target.innerHTML = e.type === 'mouseenter' ? '投放广告' : '广告'
     }
 
+    function promoteAdvertisementText(e: any) {
+        e.stopPropagation()
+        window.open("https://bd.juejin.cn/?utm_campaign=bd&utm_source=web&utm_medium=banner","blank","noopener=yes,noreferrer=yes")
+    }
+
 
     return (
         <div className={styles.advertisement}>
@@ -40,7 +45,7 @@ export const Advertisement: FC<IAdvertisementProps> = ({
                     <Image
                         src={item?.image}
                         alt={item?.text}
-                        width={224}
+                        width={235}
                         height={186}>
                     </Image>
                     <div className={styles.closeBt} onClickCapture={closeAdvertisementBlock} id={item?.name}>
@@ -49,7 +54,7 @@ export const Advertisement: FC<IAdvertisementProps> = ({
                     <div className={styles.advertisementTip}
                         onMouseEnter={showPromoteAdvertisementText}
                         onMouseLeave={showPromoteAdvertisementText}
-                        onClickCapture={showPromoteAdvertisementText}>
+                        onClickCapture={promoteAdvertisementText}>
                         广告
                     </div>
                 </div>

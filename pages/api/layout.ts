@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 
 const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>): void => {
   axios.get(`${CMSDOMAIN}/api/layouts`).then(result => {
-    const { copy_right, link_lists, public_number, qr_code, qr_code_image, site_number, title } = result.data || {};
+    const { copy_right, link_lists, public_number, qr_code, qr_code_image, site_number, title, advertisement_infos,author_lists } = result.data || {};
 
     res.status(200).json({
       navbarData: {},
@@ -27,6 +27,23 @@ const getLayoutData = (req: NextApiRequest, res: NextApiResponse<ILayoutProps>):
         siteNumber: site_number,
         publicNumber: public_number,
       },
+      advertisementData: {
+        advertisementImgs: advertisement_infos?.data?.map((item: any) => ({
+          image: `${CMSDOMAIN}${item.imageUrl.data?.url}`,
+          text: item.imageUrl.data?.name,
+          jumpUrl: item.jumpUrl,
+          name: item.name
+        }))
+      },
+      authorInfo: {
+        list: author_lists?.data?.map((item: any) => ({
+          name: item.name,
+          avatar: item.avatar,
+          description: item.description,
+          level: item.level
+        })),
+        total: 0
+      }
     });
   });
 };

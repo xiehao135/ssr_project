@@ -15,7 +15,7 @@ export interface IComponentProps {
 }
 
 const MyApp = (data: AppProps & ILayoutProps & IComponentProps): JSX.Element => {
-  const { Component, pageProps, navbarData, footerData, advertisementData, isMobile, isSupportWebp } = data;
+  const { Component, pageProps, navbarData, footerData, advertisementData, authorInfo, isMobile, isSupportWebp } = data;
 
   return (
     <div>
@@ -29,7 +29,7 @@ const MyApp = (data: AppProps & ILayoutProps & IComponentProps): JSX.Element => 
       <LanguageContextProvider>
         <ThemeContextProvider>
           <UserAgentProvider>
-            <Layout navbarData={navbarData} footerData={footerData} advertisementData={advertisementData}>
+            <Layout navbarData={navbarData} footerData={footerData} advertisementData={advertisementData} authorInfo={authorInfo}>
               <Component {...pageProps} isMobile={isMobile} isSupportWebp={isSupportWebp}/>
             </Layout>
           </UserAgentProvider>
@@ -41,8 +41,8 @@ const MyApp = (data: AppProps & ILayoutProps & IComponentProps): JSX.Element => 
 
 MyApp.getInitialProps = async (context: AppContext): Promise<AppProps & ILayoutProps & IComponentProps> => {
   const pageProps = await App.getInitialProps(context);
+  console.log(pageProps)
   const { data = {} } = await axios.get(`${LOCALDOMAIN}/api/layout`);
-  console.log(data)
 
   return {
     ...pageProps,
